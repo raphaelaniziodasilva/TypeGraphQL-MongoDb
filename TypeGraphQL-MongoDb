@@ -1,0 +1,59 @@
+Iniciando um projeto vazio:
+    npm init -y
+Instalando as dependencias:
+    npm install graphql
+    npm install class-validator --> para fazer as validações
+    npm install type-graphql --> vai permitir usar typescript
+    npm install reflect-metadata --> dependencia do graphql vai precisar para executar
+    npm install apollo-server --> vai rodar o graphql 
+    npm install mongoose --> para se comunicar com banco de dados mongodb
+    npm install dotenv --> para fazer conexão com o banco de dados
+Instalando as dependencias de desenvolvimento:
+    npm install typescript -D
+    npm install @types/node -D
+    npm install ts-node-dev -D
+
+Va para o arquivo package.json em scripts e configure a dev:
+    "scripts": {
+        "dev": "tsnd --respawn --transpile-only index.ts"
+    }
+
+Agora crie o arquivo index.ts aonde vai ficar o nosso servidor
+
+Inicie o arquivo de configuração do typescript:
+    npx tsc --init
+
+Va para o arquivo tsconfig.json e faça as configurações,:
+    https://typegraphql.com/docs/installation.html --> site do TypeGraph, installation
+
+    importe na primeira linha do arquivo index.ts o:
+        import "reflect-metadata";
+        
+    {
+    "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2018",
+    "lib": ["es2018", "esnext.asynciterable"],
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+    }
+}
+
+Crie o arquivo tsconfig.build.json e faça as configurações:
+    {
+    "extends": "./tsconfig.json",
+    "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}
