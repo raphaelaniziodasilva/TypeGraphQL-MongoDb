@@ -1,13 +1,13 @@
-// https://www.youtube.com/watch?v=ArAaWgaXqXg 17 minutos do video
 import { ApolloServer } from "apollo-server";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { ClientResolver } from "./Resolvers/ClientResolver";
 // importando o dotenv e configurando para poder ter acesso a variavel de ambiente no arquivo .env
 require("dotenv").config({path: ".env"});
+// importando o arquivo de conexão do mongodb
+import "./mongodb/connected";
 
 async function main() {
-    console.log(process.env.MONGODB_API);
     // vamos criar o schema
     const schema = await buildSchema({
         // passando as propriedade
