@@ -16,6 +16,13 @@ export class ClientResolver {
         return await ClientMongo.find();  // ClientMongo --> indo na tabela client do mongodb
     }
 
+    @Query(() => Client) // vai um array de client
+    // @Arg: vamos passar o id para fazer a pesquisa
+    async clientId(@Arg("id") id: string) { // listando um clientes
+        // procurando pelo id, {se o _id: for igual id:}, vai retornar as informações do cliente
+        return await ClientMongo.findOne({_id: id}); // ClientMongo --> indo na tabela client do mongodb
+    }
+
     // para criar um cliente usamos a @Mutation que ele nos deixa fazer alterações no db
     @Mutation(() => Client) // vai retornar um client
     /*  
@@ -24,23 +31,27 @@ export class ClientResolver {
     */
     async createClient(@Arg("createClientObject") createClientObject: CreatClientInput) { // criando cliente
         const cliente = createClientObject;
-        return await ClientMongo.create(cliente) // ClientMongo --> indo na tabela client do mongodb
+        return await ClientMongo.create(cliente); // ClientMongo --> indo na tabela client do mongodb
     }
 
-    @Mutation(() => Client) // vai retornar um array de client
+    @Mutation(() => Client) // vai um array de client
     /*  
         @Arg: para editar um cliente precisamos receber o argumento dele 
         vamos fazer as validações para atualização do nosso cliente um dto, va para pasta Inputs dentro do arquivo CreatClientInput e export a class updateClientInput
     */
     async updateClient(@Arg("updateClientObject") updateClientObject: updateClientInput) { // editando cliente
         const cliente = updateClientObject;
-        // procurando pelo id,{se o _id: for igual a cliente.id: id do cliente}, vamos mudar as informações passando essa do cliente
-        await ClientMongo.updateOne({_id: cliente.id}, cliente)
-        
+        // procurando pelo id, {se o _id: for igual a cliente.id: id do cliente}, vamos mudar as informações passando essa do cliente
+        await ClientMongo.updateOne({_id: cliente.id}, cliente); // ClientMongo --> indo na tabela client do mongodb
+
         return cliente;
     }
 
-
+    @Mutation(() => String) // vai deletar um client pelo id
+    async deleteClient(@Arg("id") id: string) { // deletando cliente
+        await ClientMongo.deleteOne({_id: id});
+        return id;
+    }
 }
 
 
