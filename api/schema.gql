@@ -18,9 +18,19 @@ type Client {
 
 type Mutation {
   createClient(createClientObject: CreatClientInput!): Client!
+  updateClient(updateClientObject: updateClientInput!): Client!
 }
 
 input CreatClientInput {
+  nome: String!
+  email: String
+  cpf: String
+  endereco: String
+  telefone: String
+}
+
+input updateClientInput {
+  id: ID!
   nome: String!
   email: String
   cpf: String

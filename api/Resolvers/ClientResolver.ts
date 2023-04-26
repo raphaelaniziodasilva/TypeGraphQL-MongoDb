@@ -1,7 +1,7 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Client } from "../Models/Client";
 import { ClientMongo } from "../mongodb/Models/Client";
-import { CreatClientInput } from "../Inputs/ClientInput";
+import { CreatClientInput, updateClientInput } from "../Inputs/ClientInput";
 
 @Resolver()
 export class ClientResolver {
@@ -11,21 +11,36 @@ export class ClientResolver {
     // aqui vamos escrever as nossas Querys e Mutations
 
     // na Query precisamos passar para ela o que ela vai retornar ou seja aqui ela vai nos retornar uma lista de Client
-    @Query(() => [Client])
+    @Query(() => [Client]) // vai retornar um array de client
     async clients() { // listando todos os clientes
         return await ClientMongo.find();  // ClientMongo --> indo na tabela client do mongodb
     }
 
     // para criar um cliente usamos a @Mutation que ele nos deixa fazer alterações no db
-    @Mutation(() => Client)
-
-    /*  @Arg: para criar um cliente precisamos receber o argumento dele 
-        vamos fazer as validações do nosso cliente um dto, crie uma pasta chamada Inputs e dentro o arquivo CreatClientInput 
+    @Mutation(() => Client) // vai retornar um client
+    /*  
+        @Arg: para criar um cliente precisamos receber o argumento dele 
+        vamos fazer as validações do nosso cliente um dto, crie uma pasta chamada Inputs e dentro o arquivo ClientInput e export a class CreatClientInput
     */
     async createClient(@Arg("createClientObject") createClientObject: CreatClientInput) { // criando cliente
         const cliente = createClientObject;
         return await ClientMongo.create(cliente) // ClientMongo --> indo na tabela client do mongodb
     }
+
+    @Mutation(() => Client) // vai retornar um array de client
+    /*  
+        @Arg: para editar um cliente precisamos receber o argumento dele 
+        vamos fazer as validações para atualização do nosso cliente um dto, va para pasta Inputs dentro do arquivo CreatClientInput e export a class updateClientInput
+    */
+    async updateClient(@Arg("updateClientObject") updateClientObject: updateClientInput) { // editando cliente
+        const cliente = updateClientObject;
+        // procurando pelo id,{se o _id: for igual a cliente.id: id do cliente}, vamos mudar as informações passando essa do cliente
+        await ClientMongo.updateOne({_id: cliente.id}, cliente)
+        
+        return cliente;
+    }
+
+
 }
 
 
