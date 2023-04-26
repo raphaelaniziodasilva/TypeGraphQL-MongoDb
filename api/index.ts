@@ -6,12 +6,13 @@ import { ClientResolver } from "./Resolvers/ClientResolver";
 require("dotenv").config({path: ".env"});
 // importando o arquivo de conexão do mongodb
 import "./mongodb/connected";
+import { Joiful } from "joiful";
 
 async function main() {
     // vamos criar o schema
     const schema = await buildSchema({
         // passando as propriedade
-
+        
         // resolvers são os endpoints, passando o ClientResolver
         resolvers: [ClientResolver],
 

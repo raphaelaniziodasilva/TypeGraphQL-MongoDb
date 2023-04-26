@@ -4,5 +4,26 @@
 # -----------------------------------------------
 
 type Query {
-  hello: String!
+  clients: [Client!]!
+}
+
+type Client {
+  id: ID!
+  nome: String!
+  email: String!
+  cpf: String!
+  endereco: String!
+  telefone: String!
+}
+
+type Mutation {
+  createClient(createClientObject: CreatClientInput!): Client!
+}
+
+input CreatClientInput {
+  nome: String!
+  email: String
+  cpf: String
+  endereco: String
+  telefone: String
 }
